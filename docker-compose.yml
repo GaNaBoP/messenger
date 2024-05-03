@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  client:
+    container_name: messenger_client
+    build: 
+      context: ./client
+    ports:
+      - 4200:4200
+    depends_on:
+      - server
+
+  server:
+    container_name: messenger_server
+    build: 
+      context: ./server
+    ports:
+      - 5000:5000

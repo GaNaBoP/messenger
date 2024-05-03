@@ -1,0 +1,46 @@
+<div class="w-full h-full flex items-center justify-center bg-gray-700">
+  <div class="w-[90%] h-[90%] bg-white flex flex-col img">
+    <div class="w-full h-[10%] flex items-center px-10">
+      <input 
+        placeholder="Enter the user name..."
+        [(ngModel)]="search"
+        (ngModelChange)="changeSearch()"
+        class="px-4 py-2 text-lg rounded-lg w-1/3 bg-teal-700 text-white"
+      >
+      <span class="material-symbols-outlined text-3xl">search</span>
+    </div>
+
+    <div class="w-full h-[90%] flex">
+      <div class="h-full w-[35%] flex flex-col items-center gap-3">
+        @for (user of users(); track user.id) {
+          <div class="bg-teal-600 px-4 py-2 w-4/5 rounded-lg border border-black flex items-center justify-between">
+            <h1 class="text-white">{{ user.username }}</h1>
+            <span 
+              (click)="createRoom(user.id)"
+              class="material-symbols-outlined text-white text-3xl"
+            >sms</span>
+          </div>
+        }
+      </div>
+      <div class="h-full w-[65%] flex flex-col items-center gap-3">
+        @for (chat of chats(); track chat.id) {
+          <div 
+            [routerLink]="generateLink(chat.id)" 
+            class="bg-teal-600 px-8 py-2 w-3/5 rounded-lg border border-black flex items-center gap-4 cursor-pointer"
+          >
+            <h1 class="text-white text-2xl">
+              {{ chat.members[0].username }}
+            </h1>
+            <div
+              class="rounded-full w-4 h-4" 
+              [ngClass]="{
+                'bg-green-400': chat.members[0].activeStatus === online,
+                'bg-red-500': chat.members[0].activeStatus === offline
+              }"
+            ></div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

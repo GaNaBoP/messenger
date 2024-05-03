@@ -1,0 +1,41 @@
+<header class="fixed w-full h-[8%] flex items-center px-10 bg-slate-600 text-white gap-8">
+  <span routerLink="/home" class="material-symbols-outlined text-4xl">arrow_back</span>
+  <h1 class="text-4xl">Chat with:</h1>
+  <h1 class="text-4xl">{{member().username}}</h1>
+  @if (member().activeStatus === online) {
+    <h1 class="text-4xl rounded-lg px-4 bg-green-700 text-white">Online</h1>
+  } @else if (member().activeStatus === offline) {
+    <h1 class="text-4xl rounded-lg px-4 bg-red-700 text-white">Offline</h1>
+  }
+</header>
+<div class="w-full h-full flex items-center justify-center img">
+  <div class="w-3/4 h-3/4 flex flex-col items-start justify-center">
+    <div class="h-4/5 w-4/5 rounded-xl bg-amber-200 overflow-y-scroll p-4 flex flex-col gap-2">
+      @for (message of messages(); track message.id) {
+        <div
+          [ngClass]="message.isMyMessage ? 'self-end' : 'self-start' "
+          class="text-2xl flex items-center gap-3"
+        >
+        @if (message.isMyMessage) {
+          <span 
+            (click)="deleteMessage(message.id)"
+            class="material-symbols-outlined transition-all opacity-0 hover:opacity-100"
+          >close</span>
+        }
+          <h1>{{ message.user.username }}: {{ message.text }}</h1>
+        </div>
+      }
+    </div>
+    <div class="h-1/5 w-full flex items-center gap-6">
+      <input 
+        [(ngModel)]="message"
+        placeholder="message..." 
+        class="border w-2/3 border-black rounded-lg py-2 px-4 text-2xl"
+      >
+      <button
+        (click)="sendMessage()" 
+        class="bg-blue-500 rounded-lg py-2 px-6 text-2xl text-white transition-all hover:bg-blue-700"
+      >Send</button>
+    </div>
+  </div>
+</div>
